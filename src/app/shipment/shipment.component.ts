@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 
-
-import { map } from 'rxjs'; // operator
-
-import { MatSort, Sort } from '@angular/material/sort';
-
+import { map } from 'rxjs'; // http observable operator
 
 import { Shipment } from './shipment.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+
 
 
 @Component({
@@ -20,53 +18,39 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 export class ShipmentComponent implements OnInit, AfterViewInit {
 
   shipmentsArray: Shipment[] = [];
-
-  //Dummy because there is a limit to API calls 
-  shipmentsArraydummy: Shipment[] = [
-    {
-      orderNo: "321312312",
-      date: "25/4/2022",
-      customer: "mcdonalds",
-      trackingNo: "312312312",
-      status: "'Shipping'",
-      consignee: "Royal Bank"
-    },
-    {
-      orderNo: "912324654",
-      date: "25/4/2022",
-      customer: "doner",
-      trackingNo: "8798797",
-      status: "'Delivering'",
-      consignee: "SantaFe"
-    }
-  ];
-
-
-  columnsToDisplay = ['ORDERNO', 'DELIVERYDATE', 'CUSTOMER', 'TRACKINGNO', 'STATUS', 'CONSIGNEE'];
-  dataSource = new MatTableDataSource(this.shipmentsArraydummy);
+  columnsToDisplay = ['orderNo', 'date', 'customer', 'trackingNo', 'status', 'consignee'];
+  dataSource = new MatTableDataSource(this.shipmentsArray);
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private http: HttpClient, private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getShipments()
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort
   }
 
 
   private getShipments() {
     this.http
-      .get<Shipment[]>('https://my.api.mockaroo.com/shipments.json?key=5e0b62d0')
+      .get<Shipment[]>('https://kuhne-nagel-default-rtdb.europe-west1.firebasedatabase.app/shipments.json')
       .pipe(map(responseData => {
+        const responseArray = [];
         for (let key in responseData) {
-          this.shipmentsArray.push(responseData[key])
+          if (responseData.hasOwnProperty(key)) {
+            responseArray.push({ ...responseData[key] })
+          }
         }
-        return this.shipmentsArray
+        console.log(this.dataSource);
+        return responseArray;
+
       }))
-      .subscribe(response => console.log(response))
+      .subscribe(response => {
+        this.shipmentsArray = response;
+        console.log(this.shipmentsArray)
+      })
   }
 }
