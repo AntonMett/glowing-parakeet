@@ -39,27 +39,3 @@
     </button>
   </div>
 </div>
-<ul>
-  <li *ngFor="let data of shipmentsArray">
-    <p>{{ data.date }}</p>
-  </li>
-</ul>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of shipmentsArray">
-      <th scope="row">{{ data.consignee }}</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-  </tbody>
-</table>
