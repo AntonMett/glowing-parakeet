@@ -1,21 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component} from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
-import { map } from 'rxjs'; // http observable operator
 
 import { Shipment } from './shipment.model';
-
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-
-
+import { ShipmentsService } from './shipments.service';
 
 @Component({
   selector: 'app-shipment',
   templateUrl: './shipment.component.html',
   styleUrls: ['./shipment.component.css']
 })
-export class ShipmentComponent implements OnInit, AfterViewInit {
+export class ShipmentComponent {
 
   shipmentsArray: Shipment[] = [];
   dummy: Shipment[] = [
@@ -54,41 +49,16 @@ export class ShipmentComponent implements OnInit, AfterViewInit {
 
   ]
   columnsToDisplay = ['orderNo', 'date', 'customer', 'trackingNo', 'status', 'consignee'];
-  dataSource = new MatTableDataSource(this.shipmentsArray);
+  dataSource = new MatTableDataSource(this.dummy);
 
-  @ViewChild(MatSort) sort = new MatSort();
-  @ViewChild(MatTable) table = MatTable;
+  constructor(private shipmentsService: ShipmentsService) { }
 
-  constructor(private http: HttpClient, private changeDetection: ChangeDetectorRef) { }
-
-  ngOnInit(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort
-  }
 
   onLoad() {
-    this.getShipments()
+    this.shipmentsService.fetchShipments().subscribe(response => {
+      this.shipmentsArray = response;
+      console.log(this.shipmentsArray)
+    })
   }
-  private getShipments() {
-    this.http
-      .get<Shipment[]>('https://kuhne-nagel-default-rtdb.europe-west1.firebasedatabase.app/shipments.json')
-      .pipe(map(responseData => {
-        const responseArray = [];
-        for (let key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            responseArray.push({ ...responseData[key] })
-          }
-        }
-        return responseArray;
 
-      }))
-      .subscribe(response => {
-        console.log(response)
-        this.shipmentsArray = response;
-        this.changeDetection.detectChanges();
-      })
-  }
 }
