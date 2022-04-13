@@ -1,0 +1,58 @@
+<div class="container">
+  // Matlib table
+  <table mat-table [dataSource]="dataSource" class="shipment-table" matSort>
+    <ng-container matColumnDef="ORDERNO">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ORDERNO</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.orderNo }}</td>
+    </ng-container>
+    <ng-container matColumnDef="DELIVERYDATE">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>DELIVERYDATE</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="CUSTOMER">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>CUSTOMER</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.customer }}</td>
+    </ng-container>
+    <ng-container matColumnDef="TRACKINGNO">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>TRACKINGNO</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.trackingNo }}</td>
+    </ng-container>
+    <ng-container matColumnDef="STATUS">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>STATUS</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.status }}</td>
+    </ng-container>
+    <ng-container matColumnDef="CONSIGNEE">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>CONSIGNEE</th>
+      <td mat-cell *matCellDef="let shipment">{{ shipment.consignee }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+
+  // BS Table
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">ORDERNO</th>
+        <th scope="col">DELIVERYDATE</th>
+        <th scope="col">CUSTOMER</th>
+        <th scope="col">TRACKINGNO</th>
+        <th scope="col">STATUS</th>
+        <th scope="col">CONSIGNEE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let shipment of shipmentsArray">
+        <th scope="row">{{ shipment.orderNo }}</th>
+        <td>{{ shipment.date }}</td>
+        <td>{{ shipment.customer }}</td>
+        <td>{{ shipment.trackingNo }}</td>
+        <td>{{ shipment.status }}</td>
+        <td>{{ shipment.consignee }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-shipment-details></app-shipment-details>
+</div>
