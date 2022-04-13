@@ -1,8 +1,8 @@
 export interface Shipment {
-  orderNo: string,
-  date: string,
+  consignee: string,
   customer: string,
-  trackingNo: string,
+  date: string,
+  orderNo: string,
   status: string,
-  consignee: string
+  trackingNo: string,
 }

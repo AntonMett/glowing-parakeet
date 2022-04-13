@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row text-center"><h1>SHIPMENTS</h1></div>
-  <div class="row" *ngIf="shipmentsArray.length < 1">
+  <div class="row">
     <!-- // Matlib table -->
 
     <table mat-table [dataSource]="dataSource" class="shipment-table" matSort>
@@ -33,9 +33,14 @@
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
     </table>
   </div>
+  <div class="row">
+    <button mat-raised-button color="primary" (click)="onLoad()">
+      Load data
+    </button>
+  </div>
 </div>
 <ul>
   <li *ngFor="let data of shipmentsArray">
-    <p>{{ data }}</p>
+    <p>{{ data.date }}</p>
   </li>
 </ul>
