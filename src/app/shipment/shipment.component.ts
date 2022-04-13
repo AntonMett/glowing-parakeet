@@ -1,5 +1,5 @@
-import { Component} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, ViewChild } from '@angular/core';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 
 import { Shipment } from './shipment.model';
@@ -48,8 +48,18 @@ export class ShipmentComponent {
     }
 
   ]
-  columnsToDisplay = ['orderNo', 'date', 'customer', 'trackingNo', 'status', 'consignee'];
-  dataSource = new MatTableDataSource(this.dummy);
+  columnsToDisplay: string[] = [
+    'orderNo',
+    'date',
+    'customer',
+    'trackingNo',
+    'status',
+    'consignee'
+  ];
+
+  dataSource = new MatTableDataSource(this.shipmentsArray);
+
+  @ViewChild(MatTable, { static: false }) table!: MatTable<Shipment[]>
 
   constructor(private shipmentsService: ShipmentsService) { }
 
@@ -57,6 +67,7 @@ export class ShipmentComponent {
   onLoad() {
     this.shipmentsService.fetchShipments().subscribe(response => {
       this.shipmentsArray = response;
+      this.table.renderRows(); // is not working ;()
       console.log(this.shipmentsArray)
     })
   }
