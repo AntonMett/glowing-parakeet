@@ -3,7 +3,12 @@
   <div class="row">
     <!-- // Matlib table -->
 
-    <table mat-table [dataSource]="dataSource" class="shipment-table" matSort>
+    <table
+      mat-table
+      [dataSource]="shipmentsArray"
+      class="shipment-table"
+      matSort
+    >
       <ng-container matColumnDef="orderNo">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ORDERNO</th>
         <td mat-cell *matCellDef="let shipment">{{ shipment.orderNo }}</td>

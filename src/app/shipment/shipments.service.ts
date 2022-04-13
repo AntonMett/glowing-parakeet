@@ -15,14 +15,19 @@ export class ShipmentsService {
 
   fetchShipments() {
     return this.http
-      .get<Shipment[]>('https://kuhne-nagel-default-rtdb.europe-west1.firebasedatabase.app/shipments.json')
+      .get<Shipment[][]>('https://kuhne-nagel-default-rtdb.europe-west1.firebasedatabase.app/shipments.json')
       .pipe(map(responseData => {
-        const responseArray = [];
+        const responseArray: Shipment[] = [];
+        console.log(responseData)
         for (let key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            responseArray.push({ ...responseData[key] })
-          };
+          for (let k in responseData[key]) {
+            responseArray.push(responseData[key][k])
+
+          }
+
+          ;
         };
+        console.log(responseArray);
         return responseArray;
       })
       )
