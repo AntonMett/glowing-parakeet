@@ -2,6 +2,29 @@
   width: 100%;
 }
 
-h1{
-  padding-bottom: 20px;
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.load-button-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.load-button {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
 }
